@@ -4,11 +4,12 @@ require "node.rb"
 
 class Person < Node
   
-  ref_accessor :name, :address, :friends, :age
+  ref_accessor :name, :nick, :address, :friends, :age
   
   def initialize()
     super 
     @name = add_box
+    @nick = add_box
     @address = add_box
     @friends = add_box
     @age = add_box
@@ -19,7 +20,7 @@ class Person < Node
   end
   
   def to_s
-    "#{name}, age #{age}, at #{address}, #{friends}"
+    "#{name} (#{nick}), age #{age}, at #{address}, #{friends}"
   end
   
 end

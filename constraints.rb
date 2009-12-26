@@ -18,6 +18,7 @@ class Constraints
     ForwardPathConstraint.new(root, source, *path)
   end
 
+  # FIXME should refs just already ignore changes to an equal? value?
   def self.pretty_much_same(a, b)
     if (a == nil)
       return b == nil
@@ -183,7 +184,6 @@ class ForwardPathConstraint
         return      
     end
     
-    # FIXME should refs just already ignore changes to an eql? item? Is eql? the right method?
     # Note the cursor should end up on a ref, but we want to set
     # the target to the contained value, not the ref
     new_value = cursor.get
@@ -324,7 +324,6 @@ class ReversePathConstraint
         return      
     end
     
-    # FIXME should refs just already ignore changes to an eql? item? Is eql? the right method?
     # Note the cursor should end up on a ref, and we want to set
     # the contained value to the contained value of the source
     # Only do this if the value doesn't match already
