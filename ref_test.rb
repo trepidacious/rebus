@@ -4,7 +4,7 @@ require "node.rb"
 
 class Person < Node
   
-  ref_accessor :name, :nick, :address, :friends, :age
+  ref_accessor :name, :nick, :address, :friends, :age, :zombie, :enlightenment, :color
   
   def initialize()
     super 
@@ -13,6 +13,9 @@ class Person < Node
     @address = add_box
     @friends = add_box
     @age = add_box
+    @zombie = add_box
+    @enlightenment = add_box
+    @color = add_box
   end
   
   def say_hi
@@ -20,7 +23,7 @@ class Person < Node
   end
   
   def to_s
-    "#{name} (#{nick}), age #{age}, at #{address}, #{friends}"
+    "#{zombie.get ? "ZOMBIE " : ""}#{name} (#{nick}), enlightenment #{enlightenment}, age #{age}, at #{address}, #{friends}, color #{color.to_a.join(', ')}"
   end
   
 end

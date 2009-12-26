@@ -1,8 +1,10 @@
 require 'ref_test'
 require 'ref'
 require 'gtk2'
-require 'ref_text_view'
-require 'ref_spinner_view'
+require 'ref_string_view'
+require 'ref_number_view'
+require 'ref_boolean_view'
+require 'ref_color_view'
 
 if __FILE__ == $0
 
@@ -10,39 +12,33 @@ if __FILE__ == $0
   bob.name = "Bob's Name"
   bob.nick = "Old Bobby McBobBob"
   bob.age = 30
+  bob.zombie = false
+  bob.enlightenment = 0.5
+  bob.color = Gdk::Color.new(65535, 6000, 6000)
   
   print_bob = lambda {puts "Change: #{bob}"}
+  print_bob.call
   bob.add_view print_bob
   
-  name_view = RefTextView.new bob.name
-  nick_view = RefTextView.new bob.nick
-  age_view = RefSpinnerView.new bob.age
+  name_view = RefStringView.new bob.name
+  nick_view = RefStringView.new bob.nick
+  age_view = RefNumberView.new bob.age
+  zombie_view = RefBooleanView.new bob.zombie, "Zombify?"
+  enlightenment_view = RefNumberView.new bob.enlightenment, 0, 1, 0.1, :scale
+  color_view = RefColorView.new bob.color
   
   window = Gtk::Window.new(Gtk::Window::TOPLEVEL)
   window.set_title  "Bob!"
   window.border_width = 10
   window.signal_connect('delete_event') { Gtk.main_quit }
-  
-  # Note "getlogin" is Unix/Linux feature if you do not have it,
-  # you should replace the [getlogin] below with something reasonable.
-  #
-#  question  = Gtk::Label.new("What is %s's password?" % [getlogin])
-#  entry_label = Gtk::Label.new("Password:")
-#  
-#  pass = Gtk::Entry.new
-#  pass.visibility = false
-  
-  # The following property takes integer value not string character
-  # pass.invisible_char = 42           ### for instance 42=asterisk
-  
-#  hbox = Gtk::HBox.new(false, 5)
-#  hbox.pack_start_defaults(entry_label)
-#  hbox.pack_start_defaults(pass)
 
   vbox = Gtk::VBox.new(false, 5)
   vbox.pack_start_defaults(name_view.widget)
   vbox.pack_start_defaults(nick_view.widget)
   vbox.pack_start_defaults(age_view.widget)
+  vbox.pack_start_defaults(zombie_view.widget)
+  vbox.pack_start_defaults(enlightenment_view.widget)
+  vbox.pack_start_defaults(color_view.widget)
   
   window.add(vbox)
   window.show_all
