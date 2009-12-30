@@ -55,21 +55,23 @@ end
 # This is a Box, and so can be viewed and constrained
 class Ref < Delegator 
   
-  attr_reader :klass
-  
   # Create a Ref
   # initial_value is the first Ref value, may be nil
   # klass is the class of the contents, may be nil indicating any class, not actually checked
   # change_manager is optional ChangeManager, if nil the default instance is used 
-  def initialize(initial_value = nil, klass = nil, change_manager = nil)
+  def initialize(initial_value = nil, klass_value = nil, change_manager = nil)
     super initial_value
     @v = initial_value
-    @klass = klass
+    @klass = klass_value
     @support = BoxSupport.new
     #Default to shared change manager instance
     @change_manager = change_manager || ChangeManager.instance
     
     @constraint = RefConstraint.new self, initial_value
+  end
+
+  def klass
+    @klass
   end
 
   # Delegate Box methods to @support

@@ -5,6 +5,7 @@ require 'ref_string_view'
 require 'ref_number_view'
 require 'ref_boolean_view'
 require 'ref_color_view'
+require 'views'
 
 if __FILE__ == $0
 
@@ -16,18 +17,26 @@ if __FILE__ == $0
 #  bob.enlightenment = 0.5
 #  bob.color = Gdk::Color.new(10000, 10000, 40000)
 
+  ref = Ref.new(nil, String)
+  ref.set "a"
+  puts "ref.klass '#{ref.klass}'"
+
   bob = Person.example
   
   print_bob = lambda {puts "Change: #{bob}"}
   print_bob.call
   bob.add_view print_bob
   
-  name_view = RefStringView.new bob.name
-  nick_view = RefStringView.new bob.nick
-  age_view = RefNumberView.new bob.age
-  zombie_view = RefBooleanView.new bob.zombie, "Zombify?"
-  enlightenment_view = RefNumberView.new bob.enlightenment, 0, 1, 0.1, :scale
-  color_view = RefColorView.new bob.color
+  puts bob.name.klass
+  
+  name_view = Views.ref_view bob.name
+  nick_view = Views.ref_view bob.nick
+  age_view = Views.ref_view bob.age
+  zombie_view = Views.ref_view bob.zombie
+  #zombie_view = Views.ref_view bob.zombie, "Zombify?"
+  #enlightenment_view = Views.ref_view bob.enlightenment, 0, 1, 0.1, :scale
+  enlightenment_view = Views.ref_view bob.enlightenment
+  color_view = Views.ref_view bob.color
   
   window = Gtk::Window.new(Gtk::Window::TOPLEVEL)
   window.set_title  "Bob!"

@@ -58,7 +58,7 @@ class Node
   end
 
   def add_box(name = nil, box = nil)
-    if box == nil
+    if !box
       box = Ref.new
     end
     @constraint.add box
