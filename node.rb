@@ -46,25 +46,23 @@ class Node
     #Default to shared change manager instance
     @change_manager = change_manager || ChangeManager.instance
     @constraint = NodeConstraint.new self, boxes
-    @refs = {}
+    @ref_names = []
   end
 
   # Delegate Box methods to @support
   extend Forwardable
   def_delegators :@support, *BoxSupport.delegate_methods
 
-  def refs
-    @refs
+  def ref_names
+    @ref_names
   end
 
-  def add_box(name = nil, box = nil)
+  def add_box(name, box = nil)
     if !box
       box = Ref.new
     end
     @constraint.add box
-    if name
-      @refs[name] = box
-    end
+    @ref_names.push name
     box
   end
 

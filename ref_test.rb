@@ -5,7 +5,7 @@ require 'gtk2'
 
 class Person < Node
   
-  ref_accessor({:name => "String", :nick => "String", :address => "Address", :friends => "Array", :age => "Fixnum", :zombie => "TrueClass", :enlightenment => "Float", :color => "Gdk::Color"})
+  ref_accessor [:name,  "String"], [:nick, "String"], [:address, "Address"], [:friends, "Array"], [:age, "Fixnum"], [:zombie, "TrueClass"], [:enlightenment, "Float"], [:color, "Gdk::Color"]
   
   def initialize()
     super 
@@ -33,7 +33,7 @@ end
 
 class Address < Node
   
-  ref_accessor [:house, :street, :town]
+  ref_accessor :house, :street, :town
 
   def initialize()
     super

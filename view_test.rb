@@ -5,6 +5,7 @@ require 'ref_string_view'
 require 'ref_number_view'
 require 'ref_boolean_view'
 require 'ref_color_view'
+require 'ref_node_view'
 require 'views'
 
 if __FILE__ == $0
@@ -29,29 +30,32 @@ if __FILE__ == $0
   
   puts bob.name.klass
   
-  name_view = Views.ref_view bob.name
-  nick_view = Views.ref_view bob.nick
-  age_view = Views.ref_view bob.age
-  zombie_view = Views.ref_view bob.zombie
-  #zombie_view = Views.ref_view bob.zombie, "Zombify?"
-  #enlightenment_view = Views.ref_view bob.enlightenment, 0, 1, 0.1, :scale
-  enlightenment_view = Views.ref_view bob.enlightenment
-  color_view = Views.ref_view bob.color
+#  name_view = Views.ref_view bob.name
+#  nick_view = Views.ref_view bob.nick
+#  age_view = Views.ref_view bob.age
+#  zombie_view = Views.ref_view bob.zombie, "Zombify?"
+#  enlightenment_view = Views.ref_view bob.enlightenment, 0, 1, 0.1, :scale
+#  color_view = Views.ref_view bob.color
+
+#  vbox = Gtk::VBox.new(false, 5)
+#  vbox.pack_start_defaults(name_view.widget)
+#  vbox.pack_start_defaults(nick_view.widget)
+#  vbox.pack_start_defaults(age_view.widget)
+#  vbox.pack_start_defaults(zombie_view.widget)
+#  vbox.pack_start_defaults(enlightenment_view.widget)
+#  vbox.pack_start_defaults(color_view.widget)
+
+#  window.add(vbox)
+
+  node_view = RefNodeView.new bob
   
   window = Gtk::Window.new(Gtk::Window::TOPLEVEL)
   window.set_title  "Bob!"
   window.border_width = 10
   window.signal_connect('delete_event') { Gtk.main_quit }
 
-  vbox = Gtk::VBox.new(false, 5)
-  vbox.pack_start_defaults(name_view.widget)
-  vbox.pack_start_defaults(nick_view.widget)
-  vbox.pack_start_defaults(age_view.widget)
-  vbox.pack_start_defaults(zombie_view.widget)
-  vbox.pack_start_defaults(enlightenment_view.widget)
-  vbox.pack_start_defaults(color_view.widget)
-  
-  window.add(vbox)
+  window.add(node_view.widget)
+
   window.show_all
   Gtk.main
   
