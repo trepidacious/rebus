@@ -3,31 +3,14 @@ require "constraints"
 
 if __FILE__ == $0
 
-#  foo = Object.new
-#  puts "foo id #{foo.__id__}"
-#  puts "foo hash #{foo.hash}"
-#  
-#  foo_ref = Ref.new(foo)
-#  puts "foo_ref id #{foo_ref.__id__}"
-#  puts "foo_ref ref_id #{foo_ref.ref_id}"
-#  puts "foo_ref hash #{foo_ref.hash}"
-#
-#  puts "foo.eql? foo_ref #{foo.eql? foo_ref}"
-#  puts "foo==foo_ref #{foo==foo_ref}"
-#  puts "foo.equal? foo_ref #{foo.equal? foo_ref}"
-
   bob = Person.new
   bob.name = "Bob"
-  puts bob
 
   print_bob = lambda {puts bob}
-
   bob.add_view print_bob
   
   bob.age = 20
-
   bob_address = Address.new
-
   bob.address = bob_address
 
   puts "Changing address"
@@ -59,7 +42,7 @@ if __FILE__ == $0
   puts "Bob is now #{bob}, should have seen change on view as well"
 
   x = Ref.new(10)
-  y = Ref.new(20)
+  y = Ref.new(20) 
   z = Ref.new(20)
 
   a = Ref.new
