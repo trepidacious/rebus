@@ -8,13 +8,15 @@ require 'ref_color_view'
 
 if __FILE__ == $0
 
-  bob = Person.new
-  bob.name = "Bob's Name"
-  bob.nick = "Old Bobby McBobBob"
-  bob.age = 30
-  bob.zombie = false
-  bob.enlightenment = 0.5
-  bob.color = Gdk::Color.new(10000, 10000, 40000)
+#  bob = Person.new
+#  bob.name = "Bob's Name"
+#  bob.nick = "Old Bobby McBobBob"
+#  bob.age = 30
+#  bob.zombie = false
+#  bob.enlightenment = 0.5
+#  bob.color = Gdk::Color.new(10000, 10000, 40000)
+
+  bob = Person.example
   
   print_bob = lambda {puts "Change: #{bob}"}
   print_bob.call

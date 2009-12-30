@@ -8,22 +8,24 @@ class Person < Node
   
   def initialize()
     super 
-    @name = add_box
-    @nick = add_box
-    @address = add_box
-    @friends = add_box
-    @age = add_box
-    @zombie = add_box
-    @enlightenment = add_box
-    @color = add_box
+    initialize_refs
   end
   
   def say_hi
     puts "Hi! I'm #{name}"
   end
   
-  def to_s
-    "#{zombie.get ? "ZOMBIE " : ""}#{name} (#{nick}), enlightenment #{enlightenment}, age #{age}, at #{address}, #{friends}, color #{color.to_a.join(', ')}"
+  def self.example
+    example = Person.new
+    example.name = "Name"
+    example.nick = "Nick"
+    example.address = Address.example
+    example.friends = [Person.new]
+    example.age = 0
+    example.zombie = false
+    example.enlightenment = 0.5
+    example.color = Gdk::Color.new(10000, 10000, 40000)
+    example
   end
   
 end
@@ -34,13 +36,15 @@ class Address < Node
 
   def initialize()
     super
-    @house = add_box
-    @street = add_box
-    @town = add_box
+    initialize_refs
   end
   
-  def to_s
-    "#{house}, #{street}, #{town}"
+  def self.example
+    example = Address.new
+    example.house = "House"
+    example.street = "Street"
+    example.town = "Town"
+    example
   end
 
 end
@@ -48,6 +52,8 @@ end
 if __FILE__ == $0
 
   bob = Person.new
+
+  p bob.refs
 
   print_bob = lambda {puts "View sees #{bob}"}
   bob.add_view print_bob 
@@ -77,13 +83,5 @@ if __FILE__ == $0
   bob.address = bob_address
 
   puts bob.address.house
-
-  puts Path.follow(bob, :address, :house)
-
-  puts Path.follow(bob, lambda {|x| x.address}, :house)
-
-  puts Path.follow(bob, lambda {|x| x.friends[0]}, :name)
-
-  puts Path.follow(bob, lambda {|x| x.friends[1]}, :name)
 
 end
