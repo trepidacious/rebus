@@ -293,7 +293,7 @@ class ReversePathConstraint
     # At each stage, cache the thing we reach
     @path.each do |step|
       
-      #If we hit a null cursor, can't continue
+      #If we hit a nil cursor, can't continue
       if !cursor
         clear_cache
         return

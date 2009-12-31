@@ -37,9 +37,6 @@ class RefNodeView
   def initialize(node)
     @node = node
     
-    # Make a table with a row per ref in node
-    ref_count = node.ref_names.size
-    
     @label_box = Gtk::VBox.new(true, 3)
     @view_box = Gtk::VBox.new(true, 3)
 
