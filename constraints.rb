@@ -20,8 +20,8 @@ class Constraints
 
   # FIXME should refs just already ignore changes to an equal? value?
   def self.pretty_much_same(a, b)
-    if (a == nil)
-      return b == nil
+    if !a
+      return !b
     else
       return a.equal? b
     end    
@@ -153,8 +153,8 @@ class ForwardPathConstraint
     # At each stage, cache the thing we reach
     @path.each do |step|
       
-      #If we hit a null cursor, can't continue
-      if (cursor == nil)
+      #If we hit a nil cursor, can't continue
+      if !cursor
         clear_cache
         return
         
@@ -294,7 +294,7 @@ class ReversePathConstraint
     @path.each do |step|
       
       #If we hit a null cursor, can't continue
-      if (cursor == nil)
+      if !cursor
         clear_cache
         return
         

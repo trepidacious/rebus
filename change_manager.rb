@@ -134,7 +134,7 @@ class ChangeManager
     
       # Add this constraint to the set for this changed data
       constraint_set = @data_to_constraint[new_changed]
-      if constraint_set == nil
+      if !constraint_set
         constraint_set = {}
         @data_to_constraint[new_changed] = constraint_set
       end

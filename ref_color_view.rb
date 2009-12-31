@@ -9,6 +9,9 @@ class RefColorView
     @button = Gtk::ColorButton.new(Gdk::Color.new(0,0,0))
     @button.signal_connect(:color_set) {commit}
     
+    # Make the button smaller, so it will fit in a normal RefNodeView
+    @button.set_height_request 16
+    
     update
   end
   
