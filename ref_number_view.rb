@@ -4,7 +4,8 @@ class RefNumberView
     @ref = ref
     
     # Listen to ref, and update when it changes
-    #@ref.add_view lambda {|x| view_data_changed x}
+    # Note we don't use a lambda since it could be GCed unless
+    # we retain a reference to it
     @ref.add_view self
 
     if type == :scale
@@ -24,23 +25,17 @@ class RefNumberView
   end
   
   def update
-    puts "update"
     edited_value = @widget.value
     ref_value = @ref.get
-    puts "edited #{edited_value}, ref #{ref_value}"
     if !(edited_value == ref_value)
-      puts "updating difference"
       @widget.value = ref_value
     end
   end
 
   def commit
-    puts "commit"
     edited_value = @widget.value
     ref_value = @ref.get
-    puts "edited #{edited_value}, ref #{ref_value}"
     if !(edited_value == ref_value)
-      puts "commiting difference"
       @ref.set edited_value
     end    
   end

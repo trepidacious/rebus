@@ -26,7 +26,7 @@ if __FILE__ == $0
   
   print_bob = lambda do
     puts "Change: #{bob}"
-    bob.enlightenment.views.each {|v| puts "en list #{v}"}
+    # bob.enlightenment.views.each {|v| puts "en list #{v}"}
   end
   
   print_bob.call

@@ -4,7 +4,8 @@ class RefColorView
     @ref = ref
     
     # Listen to ref, and update when it changes
-    @ref.add_view lambda {update}
+    # see ref_number_view
+    @ref.add_view self
     
     @button = Gtk::ColorButton.new(Gdk::Color.new(0,0,0))
     @button.signal_connect(:color_set) {commit}
@@ -15,6 +16,10 @@ class RefColorView
     update
   end
   
+  def view_data_changed changes
+    update
+  end
+
   def update
     edit_value = @button.color
     ref_value = @ref.get

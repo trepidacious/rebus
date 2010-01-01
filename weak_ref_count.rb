@@ -9,6 +9,11 @@ class WeakRefCount
 
   def initialize()
     @counts = {}
+    
+    # When a key is finalised, remove its id from the counts hash
+    @finalize = lambda do |id|
+      @counts.delete id
+    end
   end
   
   def clear()
@@ -17,8 +22,18 @@ class WeakRefCount
   
   def add(item)
     #Increment count for the id of this object, starting from 0 if no count
+    
     id = item.__id__
     count = @counts[id]
+    
+    # If we had no count, start from 0 and also make
+    # sure we will remove the mapping if the item
+    # is finalized
+    if !count
+      count = 0
+      ObjectSpace.define_finalizer(item, @finalize)
+    end
+    
     count ||= 0
     @counts[id] = count + 1
   end
@@ -50,7 +65,7 @@ class WeakRefCount
 
 end
 
-
+# Version below is strong, for debugging any problems with weak version
 #class WeakRefCount
 #
 #  def initialize()
@@ -80,8 +95,6 @@ end
 #  end
 #
 #  def each()
-#    #We use delete_if to iterate the objects, and also to clear
-#    #any mappings for objects that have been GCed
 #    @counts.each_key do |key|
 #      yield key
 #    end

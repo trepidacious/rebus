@@ -4,7 +4,8 @@ class RefStringView
     @ref = ref
     
     # Listen to ref, and update when it changes
-    @ref.add_view lambda {update}
+    # see ref_number_view
+    @ref.add_view self
     
     @entry = Gtk::Entry.new
     @entry.signal_connect(:activate) {commit}
@@ -12,6 +13,10 @@ class RefStringView
     update
   end
   
+  def view_data_changed changes
+    update
+  end
+
   def update
     text = @entry.text
     value = @ref.get

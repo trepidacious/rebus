@@ -4,7 +4,8 @@ class RefBooleanView
     @ref = ref
     
     # Listen to ref, and update when it changes
-    @ref.add_view lambda {update}
+    # See ref_number_view
+    @ref.add_view self
     
     @check = Gtk::CheckButton.new(label)
     @check.signal_connect(:toggled) {commit}
@@ -12,6 +13,10 @@ class RefBooleanView
     update
   end
   
+  def view_data_changed changes
+    update
+  end
+
   def update
     edit_value = @check.active?
     ref_value = @ref.get
