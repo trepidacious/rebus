@@ -96,6 +96,8 @@ class ChangeManager
         view.view_data_changed @all_changes
       elsif view.respond_to?(:call)
         view.call @all_changes
+      else
+        puts "####Invalid view #{view}"
       end
     
     end

@@ -37,25 +37,34 @@ class RefNodeView
   def initialize(node)
     @node = node
     
-    @label_box = Gtk::VBox.new(true, 3)
-    @view_box = Gtk::VBox.new(true, 3)
+    @label_box = Gtk::VBox.new(true, 6)
+    @view_box = Gtk::VBox.new(true, 6)
+  
+    @views = []
 
     node.ref_names.each_with_index do |name, i|
 
-      # Label
-      label = Gtk::Label.new name.to_s + ":"
-      label.xalign = 1
-      #label.set_width_request 140
-
       # sub-view
       ref = node.send(name)
-      view = Views.ref_view(ref, name)
-      view.widget.set_width_request 200
+      view, labelled = Views.ref_view(ref, name)
       
-      # Layout
-      @label_box.pack_start(label, false, true, 0)
-      @view_box.pack_start(view.widget, false, true, 0)
-
+      if view
+        #FIXME need to clear out old views when no longer used
+        @views.push view
+        
+        view.widget.set_width_request 200
+  
+        # Label
+        label_contents = labelled ? "" : name.to_s + ":" 
+        label = Gtk::Label.new label_contents
+        label.xalign = 1
+        #label.set_width_request 140
+        
+        # Layout
+        @label_box.pack_start(label, false, true, 0)
+        @view_box.pack_start(view.widget, false, true, 0)
+      end
+      
     end
     
     @widget = Gtk::HBox.new(false, 2)

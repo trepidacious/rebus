@@ -1,15 +1,18 @@
 require 'ref.rb'
 require 'ref_accessor.rb'
-require "node.rb"
+require 'node.rb'
 require 'gtk2'
+require 'constraints'
 
 class Person < Node
   
-  ref_accessor [:name,  "String"], [:nick, "String"], [:address, "Address"], [:friends, "Array"], [:age, "Fixnum"], [:zombie, "TrueClass"], [:enlightenment, "Float"], [:color, "Gdk::Color"]
+  ref_accessor [:name,  "String"], [:nick, "String"], [:address, "Address"], [:friends, "Array"], [:age, "Fixnum"], [:enlightenment, "Float"], [:color, "Gdk::Color"], [:zombie, "TrueClass"]
   
   def initialize()
     super 
     initialize_refs
+    Constraints.range(@enlightenment, (0..1))
+    Constraints.range(@age, (0..1000))
   end
   
   def say_hi

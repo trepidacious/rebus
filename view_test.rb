@@ -24,7 +24,11 @@ if __FILE__ == $0
 
   bob = Person.example
   
-  print_bob = lambda {puts "Change: #{bob}"}
+  print_bob = lambda do
+    puts "Change: #{bob}"
+    bob.enlightenment.views.each {|v| puts "en list #{v}"}
+  end
+  
   print_bob.call
   bob.add_view print_bob
   

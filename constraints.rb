@@ -13,9 +13,13 @@ class Constraints
     ReversePathConstraint.new(root, source, *path)
   end
 
-  def self.path(root, source, *path)
-    ReversePathConstraint.new(root, source, *path)
-    ForwardPathConstraint.new(root, source, *path)
+  def self.path(from, target, *path)
+    ReversePathConstraint.new(from, target, *path)
+    ForwardPathConstraint.new(from, target, *path)
+  end
+
+  def self.range(target, range)
+    RangeConstraint.new(target, range)
   end
 
   # FIXME should refs just already ignore changes to an equal? value?
@@ -27,6 +31,48 @@ class Constraints
     end    
   end
 
+end
+
+# Simple constraint, constrains a number to lie in a given
+# range
+class RangeConstraint
+  
+  # Make a constraint, processing sources via a calculation, to
+  # give a value for the target
+  def initialize(target, range)
+    @target = target
+    @range = range
+    
+    # register on target, so it keeps us in scope
+    @target.constraint_register self
+
+    # listen to target, so we can override edits
+    @target.constraint_listen self
+    
+    # set targets to start
+    apply true
+  end
+  
+  def propagate(changes)
+    # We may put a new instance into target, if it is out of range
+    {@target => SimpleChange.shallow}
+  end
+  
+  def apply(propagate)
+    value = @target.get
+    if (value) 
+      if (value > @range.last)
+        value = @range.last
+        @target.ref_constrain value, propagate
+      elsif (value < @range.first)
+        value = @range.first
+        @target.ref_constrain value, propagate
+      end
+    else
+      value = @range.first
+    end
+  end
+  
 end
 
 # Simple constraint, uses a procedure on a list or map of
