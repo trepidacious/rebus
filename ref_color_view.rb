@@ -39,5 +39,11 @@ class RefColorView
   def widget
     @button
   end
+  
+  def destroy
+    @ref.remove_view self
+    widget.destroy
+  end
+
 
 end

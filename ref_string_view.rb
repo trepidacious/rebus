@@ -36,5 +36,11 @@ class RefStringView
   def widget
     @entry
   end
+  
+  def destroy
+    @ref.remove_view self
+    widget.destroy
+  end
+
 
 end

@@ -15,9 +15,9 @@ class Views
     if klass == String
       return RefStringView.new(ref), false
     elsif klass == Fixnum
-      return RefNumberView.new(ref, -10000000, 10000000, 1), false
+      return RefNumberView.new(ref, -1000000000, 1000000000, 1), false
     elsif klass == Float
-      return RefNumberView.new(ref, -10000000, 10000000, 0.1), false
+      return RefNumberView.new(ref, -1000000000, 1000000000, 0.1), false
     elsif klass == TrueClass || klass == FalseClass
       return RefBooleanView.new(ref, label), true
     elsif klass == Gdk::Color

@@ -6,6 +6,7 @@ require 'ref_number_view'
 require 'ref_boolean_view'
 require 'ref_color_view'
 require 'ref_node_view'
+require 'ref_node_view2'
 require 'views'
 
 if __FILE__ == $0
@@ -25,7 +26,7 @@ if __FILE__ == $0
   bob = Person.example
   
   print_bob = lambda do
-    puts "Change: #{bob}"
+    puts "BOB Change: #{bob}"
     # bob.enlightenment.views.each {|v| puts "en list #{v}"}
   end
   
@@ -51,7 +52,15 @@ if __FILE__ == $0
 
 #  window.add(vbox)
 
-  node_view = RefNodeView.new bob
+  person_ref = Ref.new bob
+  
+#  path_ref = Ref.new(nil, bob.name.klass)
+#  Constraints.path(person_ref, path_ref, :name)
+#  
+#  puts "person_ref is #{person_ref}"
+#  puts "path_ref is #{path_ref}"
+  
+  node_view = RefNodeView2.new person_ref, Person.example
   
   window = Gtk::Window.new(Gtk::Window::TOPLEVEL)
   window.set_title  "Bob!"

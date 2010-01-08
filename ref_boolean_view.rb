@@ -36,5 +36,10 @@ class RefBooleanView
   def widget
     @check
   end
+  
+  def destroy
+    @ref.remove_view self
+    widget.destroy
+  end
 
 end

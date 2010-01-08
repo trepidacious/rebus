@@ -29,6 +29,9 @@ class WeakRefCount
     # If we had no count, start from 0 and also make
     # sure we will remove the mapping if the item
     # is finalized
+    # Unfortunately we may end up adding more than one
+    # finaliser, but it should be fairly uncommon for
+    # keys to be added and removed repeatedly
     if !count
       count = 0
       ObjectSpace.define_finalizer(item, @finalize)
@@ -51,8 +54,9 @@ class WeakRefCount
   end
 
   def each()
-    #We use delete_if to iterate the objects, and also to clear
-    #any mappings for objects that have been GCed
+    # We use delete_if to iterate the objects, and also to clear
+    # any mappings for objects that have been GCed (we might as well do
+    # it here, it may also get re-deleted when key is finalized)
     @counts.delete_if do |key, value|
       begin
         yield ObjectSpace._id2ref(key)

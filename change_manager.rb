@@ -7,7 +7,7 @@ class ChangeManager
     @changes = {}
     @all_changes = {}
     @data_to_constraint = {}
-    @constraints_changing_unknown = Set.new
+    @constraints_changing_unknown = SortedSet.new
     @notifying_views = false
   end
   
@@ -26,29 +26,39 @@ class ChangeManager
     # We will apply these constraints only - any others
     # are not needed. If this value depends on others,
     # then their constraints will be triggered recursively.
-    constraints = (@data_to_constraint[data] || {}).dup
+    #constraints = (@data_to_constraint[data] || SortedSet.new).dup
 
-    # Since we will be applying constraints, we do not
-    # need to apply them again. We KNOW we will apply them
-    # eventually, so we can remove them now, but we will apply
-    # them below.
-    @data_to_constraint.each_key do |c|
-      relevant_constraints = @data_to_constraint[c] || {}
-      relevant_constraints.delete_if {|k, v| constraints.has_key?(k)}
-    end
-    
-    # Get rid of the whole set of constraints we are applying,
-    # no point keeping mapping to empty set
-    @data_to_constraint.delete(data)
+#    # Since we will be applying constraints, we do not
+#    # need to apply them again. We KNOW we will apply them
+#    # eventually, so we can remove them now, but we will apply
+#    # them below.
+#    @data_to_constraint.each_key do |c|
+#      relevant_constraints = @data_to_constraint[c] || SortedSet.new
+#      relevant_constraints.subtract constraints
+#    end
+#    
+#    # Get rid of the whole set of constraints we are applying,
+#    # no point keeping mapping to empty set
+#    @data_to_constraint.delete(data)
+#
+#    # Get rid of any OTHER empty constraint sets, in case
+#    # we just cleared the last ones out of some other data 
+#    @data_to_constraint.delete_if {|k, v| v.empty?}
 
-    # Get rid of any OTHER empty constraint sets, in case
-    # we just cleared the last ones out of some other data 
-    @data_to_constraint.delete_if {|k, v| v.empty?}
+#    # Finally, apply the constraints - they don't need to propagate,
+#    # we did it during earlier propagation
+#    constraints.each do |constraint|
+#      constraint.apply false
+#    end
 
-    # Finally, apply the constraints - they don't need to propagate,
-    # we did it during earlier propagation
-    constraints.each_key do |constraint|
-      constraint.apply false
+    while @data_to_constraint[data] do
+      constraints = @data_to_constraint[data]
+      constraint = constraints.first
+      if (constraint)
+        constraints.delete constraint
+        constraint.apply false
+      end
+      @data_to_constraint.delete_if {|k, v| v.empty?}
     end
 
   end
@@ -137,10 +147,10 @@ class ChangeManager
       # Add this constraint to the set for this changed data
       constraint_set = @data_to_constraint[new_changed]
       if !constraint_set
-        constraint_set = {}
+        constraint_set = SortedSet.new
         @data_to_constraint[new_changed] = constraint_set
       end
-      constraint_set[constraint] = true
+      constraint_set.add constraint
       
       # If the changed item is the symbol :unknown, we treat this
       # as a special change, indicating that the constraint

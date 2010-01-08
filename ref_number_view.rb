@@ -1,6 +1,6 @@
 class RefNumberView
   
-  def initialize(ref, min = -10000000, max = 10000000, step = 0.1, type=:spin)
+  def initialize(ref, min = -1000000000, max = 1000000000, step = 0.1, type=:spin)
     @ref = ref
     
     # Listen to ref, and update when it changes
@@ -27,6 +27,7 @@ class RefNumberView
   def update
     edited_value = @widget.value
     ref_value = @ref.get
+    puts "update, edited #{edited_value}, ref #{ref_value}"
     if !(edited_value == ref_value)
       @widget.value = ref_value
     end
@@ -35,6 +36,7 @@ class RefNumberView
   def commit
     edited_value = @widget.value
     ref_value = @ref.get
+    puts "commit, edited #{edited_value}, ref #{ref_value}"
     if !(edited_value == ref_value)
       @ref.set edited_value
     end    
@@ -43,5 +45,11 @@ class RefNumberView
   def widget
     @widget
   end
+  
+  def destroy
+    @ref.remove_view self
+    widget.destroy
+  end
+
 
 end
