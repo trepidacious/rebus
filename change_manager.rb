@@ -156,9 +156,10 @@ class ChangeManager
       # If the changed item is the symbol :unknown, we treat this
       # as a special change, indicating that the constraint
       # doesn't know which data it will change
+      # NOTE: We use eql? because it works, and it doesn't cause a read on the ref
+      # via delegation, which == does.
       if (new_changed.eql? :unknown)
         @constraints_changing_unknown.add constraint
-        
       # Normal changes are just propagated
       else
         propagate_change(new_changed, new_change)
