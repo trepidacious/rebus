@@ -155,7 +155,7 @@ class ChangeManager
       # If the changed item is the symbol :unknown, we treat this
       # as a special change, indicating that the constraint
       # doesn't know which data it will change
-      if (new_changed == :unknown)
+      if (new_changed.eql? :unknown)
         @constraints_changing_unknown.add constraint
         
       # Normal changes are just propagated
