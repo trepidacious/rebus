@@ -27,7 +27,7 @@ class RefNumberView
   def update
     edited_value = @widget.value
     ref_value = @ref.get
-    puts "update, edited #{edited_value}, ref #{ref_value}"
+    #puts "update, edited #{edited_value}, ref #{ref_value}"
     if !(edited_value == ref_value)
       @widget.value = ref_value
     end
@@ -36,7 +36,7 @@ class RefNumberView
   def commit
     edited_value = @widget.value
     ref_value = @ref.get
-    puts "commit, edited #{edited_value}, ref #{ref_value}"
+    #puts "commit, edited #{edited_value}, ref #{ref_value}"
     if !(edited_value == ref_value)
       @ref.set edited_value
     end    

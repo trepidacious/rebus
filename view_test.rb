@@ -19,10 +19,6 @@ if __FILE__ == $0
 #  bob.enlightenment = 0.5
 #  bob.color = Gdk::Color.new(10000, 10000, 40000)
 
-  ref = Ref.new(nil, String)
-  ref.set "a"
-  puts "ref.klass '#{ref.klass}'"
-
   bob = Person.example
   
   print_bob = lambda do
@@ -32,8 +28,6 @@ if __FILE__ == $0
   
   print_bob.call
   bob.add_view print_bob
-  
-  puts bob.name.klass
   
 #  name_view = Views.ref_view bob.name
 #  nick_view = Views.ref_view bob.nick

@@ -135,13 +135,13 @@ class PathRefConstraint
   def apply(propagate)
     
     #DEBUG
-    puts "applying PathRefConstraint to #{@target.__id__}, prop? #{propagate}"
+    # puts "applying PathRefConstraint to #{@target.__id__}, prop? #{propagate}"
 
     # Note the cursor should end up on a ref, but we want to set
     # the target to the contained value, not the ref
     if __update_cache
       new_value = @cached_ref.get
-      puts "Got value #{new_value} from @cached_ref #{@cached_ref.__id__}"
+      #puts "Got value #{new_value} from @cached_ref #{@cached_ref.__id__}"
       if !Constraints.pretty_much_same(@target.get, new_value)
         @target.__setobj__ new_value
       end

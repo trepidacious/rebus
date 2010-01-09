@@ -68,7 +68,7 @@ class RangeConstraint
   def apply(propagate)
     
     #DEBUG
-    puts "applying range to #{@target.__id__}, prop? #{propagate}"
+    # puts "applying range to #{@target.__id__}, prop? #{propagate}"
     
     value = @target.get
     if (value) 
