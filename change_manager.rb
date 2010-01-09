@@ -26,40 +26,41 @@ class ChangeManager
     # We will apply these constraints only - any others
     # are not needed. If this value depends on others,
     # then their constraints will be triggered recursively.
-    #constraints = (@data_to_constraint[data] || SortedSet.new).dup
+    constraints = (@data_to_constraint[data] || SortedSet.new).dup
 
-#    # Since we will be applying constraints, we do not
-#    # need to apply them again. We KNOW we will apply them
-#    # eventually, so we can remove them now, but we will apply
-#    # them below.
-#    @data_to_constraint.each_key do |c|
-#      relevant_constraints = @data_to_constraint[c] || SortedSet.new
-#      relevant_constraints.subtract constraints
-#    end
-#    
-#    # Get rid of the whole set of constraints we are applying,
-#    # no point keeping mapping to empty set
-#    @data_to_constraint.delete(data)
-#
-#    # Get rid of any OTHER empty constraint sets, in case
-#    # we just cleared the last ones out of some other data 
-#    @data_to_constraint.delete_if {|k, v| v.empty?}
-
-#    # Finally, apply the constraints - they don't need to propagate,
-#    # we did it during earlier propagation
-#    constraints.each do |constraint|
-#      constraint.apply false
-#    end
-
-    while @data_to_constraint[data] do
-      constraints = @data_to_constraint[data]
-      constraint = constraints.first
-      if (constraint)
-        constraints.delete constraint
-        constraint.apply false
-      end
-      @data_to_constraint.delete_if {|k, v| v.empty?}
+    # Since we will be applying constraints, we do not
+    # need to apply them again. We KNOW we will apply them
+    # eventually, so we can remove them now, but we will apply
+    # them below.
+    @data_to_constraint.each_key do |c|
+      relevant_constraints = @data_to_constraint[c] || SortedSet.new
+      relevant_constraints.subtract constraints
     end
+    
+    # Get rid of the whole set of constraints we are applying,
+    # no point keeping mapping to empty set
+    @data_to_constraint.delete(data)
+
+    # Get rid of any OTHER empty constraint sets, in case
+    # we just cleared the last ones out of some other data 
+    @data_to_constraint.delete_if {|k, v| v.empty?}
+
+    # Finally, apply the constraints - they don't need to propagate,
+    # we did it during earlier propagation
+    constraints.each do |constraint|
+      constraint.apply false
+    end
+
+#   Alternate version, simpler but may apply the same constraint twice if it affects different targets
+#    while @data_to_constraint[data] do
+#      constraints = @data_to_constraint[data]
+#      constraint = constraints.first
+#      if (constraint)
+#        constraints.delete constraint
+#        constraint.apply false
+#      end
+#      @data_to_constraint.delete_if {|k, v| v.empty?}
+#    end
 
   end
 
