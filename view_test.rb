@@ -1,12 +1,11 @@
 require 'ref_test'
 require 'ref'
 require 'gtk2'
-require 'ref_string_view'
-require 'ref_number_view'
-require 'ref_boolean_view'
-require 'ref_color_view'
+#require 'ref_string_view'
+#require 'ref_number_view'
+#require 'ref_boolean_view'
+#require 'ref_color_view'
 require 'ref_node_view'
-require 'ref_node_view2'
 require 'views'
 
 if __FILE__ == $0
@@ -19,11 +18,22 @@ if __FILE__ == $0
 #  bob.enlightenment = 0.5
 #  bob.color = Gdk::Color.new(10000, 10000, 40000)
 
+  alice = Person.example
+  alice.name = "Alice"
+  
+  print_alice = lambda do
+    puts "ALICE Change: #{alice}"
+  end
+  
+  print_alice.call
+  alice.add_view print_alice
+
+
   bob = Person.example
+  bob.name = "Bob"
   
   print_bob = lambda do
     puts "BOB Change: #{bob}"
-    # bob.enlightenment.views.each {|v| puts "en list #{v}"}
   end
   
   print_bob.call
@@ -54,14 +64,31 @@ if __FILE__ == $0
 #  puts "person_ref is #{person_ref}"
 #  puts "path_ref is #{path_ref}"
   
-  node_view = RefNodeView2.new person_ref, Person.example
+  node_view = RefNodeView.new person_ref, Person.example
   
   window = Gtk::Window.new(Gtk::Window::TOPLEVEL)
   window.set_title  "Bob!"
   window.border_width = 10
   window.signal_connect('delete_event') { Gtk.main_quit }
 
-  window.add(node_view.widget)
+  box = Gtk::VBox.new(false, 6)
+  
+  box.pack_start(Gtk::Label.new("Edited Person:"), false, true, 0)
+  
+  box.pack_start(node_view.widget, false, true, 0)
+
+  alice_button = Gtk::Button.new("Alice")
+  alice_button.signal_connect(:clicked) {person_ref.set alice}
+
+  bob_button = Gtk::Button.new("Bob")
+  bob_button.signal_connect(:clicked) {person_ref.set bob}
+
+  box.pack_start(Gtk::Label.new("Change Person:"), false, true, 0)
+
+  box.pack_start(alice_button, false, true, 0)
+  box.pack_start(bob_button, false, true, 0)
+
+  window.add(box)
 
   window.show_all
   Gtk.main

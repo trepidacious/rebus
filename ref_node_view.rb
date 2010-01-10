@@ -1,19 +1,24 @@
 require 'gtk2'
+require 'path_ref'
 
 class RefNodeView
-  
-  def initialize(node)
-    @node = node
+
+  def initialize(node_ref, example)
+    @node_ref = node_ref
     
     @label_box = Gtk::VBox.new(true, 6)
     @view_box = Gtk::VBox.new(true, 6)
   
     @views = Set.new
 
-    node.ref_names.each_with_index do |name, i|
+    # Add a view for each named ref in the example
+    example.ref_names.each_with_index do |name, i|
 
+      # Make a ref that is just the named ref of the displayed node, with the same class as in the example
+      example_ref = example.send(name)
+      ref = PathRef.new(node_ref, [name], example_ref.klass)
+      
       # sub-view
-      ref = node.send(name)
       view, labelled = Views.ref_view(ref, name)
       
       if view
@@ -47,6 +52,11 @@ class RefNodeView
   
   def widget
     @widget
+  end
+  
+  def destroy
+    @views.each {|view| view.destroy}
+    @widget.destroy
   end
 
 end

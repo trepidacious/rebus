@@ -1,4 +1,3 @@
-require "delegate"
 require "change_manager"
 require "box_support"
 require "forwardable"
