@@ -20,6 +20,9 @@ class WeakRefCount
     @counts.clear
   end
   
+  # Add a new reference to an item, and return its new reference
+  # count - e.g. if the item has just been added for the first time,
+  # this will be 1
   def add(item)
     #Increment count for the id of this object, starting from 0 if no count
     
@@ -38,9 +41,16 @@ class WeakRefCount
     end
     
     count ||= 0
-    @counts[id] = count + 1
+    count += 1
+    @counts[id] = count
+    
+    return count
   end
 
+  # Remove a reference to an item, and return its new reference
+  # count - e.g. if the item has just been removed completely,
+  # this will be 0. If the item was not actually present before
+  # being removed, -1 will be returned
   def remove(item)
     #Decrement count for this object (0 if no count)
     id = item.__id__
@@ -51,8 +61,11 @@ class WeakRefCount
     else
       @counts.delete(id)
     end
+    
+    return count
   end
 
+  # Yield each item that has a positive reference count
   def each()
     # We use delete_if to iterate the objects, and also to clear
     # any mappings for objects that have been GCed (we might as well do
