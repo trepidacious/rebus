@@ -6,7 +6,7 @@ require 'constraints'
 
 class Person < Node
   
-  ref_accessor [:name,  "String"], [:nick, "String"], [:address, "Address"], [:friends, "Array"], [:age, "Fixnum"], [:enlightenment, "Float"], [:color, "Gdk::Color"], [:zombie, "TrueClass"]
+  ref_accessor [:name,  "String"], [:nick, "String"], [:address, "Address"], [:friends, "Array"], [:age, "Integer"], [:enlightenment, "Float"], [:color, "Gdk::Color"], [:zombie, "TrueClass"]
   
   def initialize()
     super 

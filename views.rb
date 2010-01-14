@@ -14,7 +14,7 @@ class Views
     
     if klass == String
       return RefStringView.new(ref), false
-    elsif klass == Fixnum
+    elsif klass == Integer
       return RefNumberView.new(ref, -1000000000, 1000000000, 1), false
     elsif klass == Float
       return RefNumberView.new(ref, -1000000000, 1000000000, 0.1), false
